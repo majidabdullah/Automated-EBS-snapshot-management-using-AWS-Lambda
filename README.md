@@ -1,0 +1,64 @@
+# Automated EBS Snapshot Management using AWS Lambda
+
+## Overview
+
+This project is a serverless solution that automates EBS snapshot creation, retention, and monitoring using AWS CDK. This solution ensures backup consistency, enforces retention policies, and provides real-time monitoring with alerts.
+
+
+### Workflow
+
+1. **Amazon EventBridge** triggers an **AWS Lambda** function based on a predefined schedule.
+2. The Lambda function:
+   - Identifies EC2 instances with the `Backup=True` tag.
+   - Creates EBS snapshots.
+   - Applies retention policies.
+   - Pushes backup metrics to Amazon CloudWatch.
+3. CloudWatch alarms monitor the backup process and trigger notifications via **Amazon SNS**.
+4. **Cross-Region Snapshot Copy** ensures disaster recovery readiness.
+
+## Tech Stack
+
+- **AWS CDK (TypeScript)** – Infrastructure as Code
+- **Amazon EventBridge** – Event-driven automation
+- **AWS Lambda** – Serverless execution
+- **Amazon EBS Snapshots** – Data backup
+- **Amazon CloudWatch** – Monitoring & alerts
+- **Amazon SNS** – Notifications (e.g., Slack)
+
+## Deployment
+
+### Prerequisites
+
+- Install [AWS CDK](https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html)
+- Configure AWS credentials
+
+### Steps
+
+```sh
+# Clone the repository
+git clone https://github.com/mohsinsheikhani/smart-vault.git
+cd smart-vault
+
+# Install dependencies
+npm install
+
+# Bootstrap AWS CDK (if not done already)
+cdk bootstrap
+
+# Deploy the stack
+cdk deploy
+```
+
+## Monitoring
+
+- Check **CloudWatch Logs** for Lambda execution details.
+- Review **CloudWatch Metrics** for backup success rates.
+- Set up **SNS Alerts** for failure notifications.
+
+## Cleanup
+
+To remove the stack:
+
+```sh
+cdk destroy
+```
